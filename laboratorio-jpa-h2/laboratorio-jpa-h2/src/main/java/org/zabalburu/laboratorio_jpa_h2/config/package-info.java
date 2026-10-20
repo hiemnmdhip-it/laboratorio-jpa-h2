@@ -1,0 +1,1 @@
+package org.zabalburu.laboratorio_jpa_h2.config;
