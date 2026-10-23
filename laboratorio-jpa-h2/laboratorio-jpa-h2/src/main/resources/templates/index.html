@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio JPA H2 - Item Prompts</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container my-5">
+        <h1 class="mb-4 text-primary fw-bold">Laboratorio JPA (H2)</h1>
+
+        <!-- ACORDEÓN DE FORMULARIOS -->
+        <div class="accordion mb-4 shadow-sm" id="filtrosAccordion">
+
+            <!-- APARTADO 1: Por Categoría (Sincronizado con tu Controller POST /categoria) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingUno">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUno">
+                        1. Búsqueda exacta por categoría
+                    </button>
+                </h2>
+                <div id="collapseUno" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <!-- Corregido: método POST, acción /categoria -->
+                        <form th:action="@{/categoria}" method="post" class="row g-3 align-items-end">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Escribe la Categoría:</label>
+                                <!-- Cambiado de <select> a <input> de texto libre porque el controlador no envía una lista de opciones -->
+                                <!-- Corregido: name="id" obligatorio por el @RequestParam("id") del controlador -->
+                                <input type="text" name="id" class="form-control" placeholder="Ej: Cyberpunk, Code..." required />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary w-100">Buscar por Categoría</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APARTADO 2: Deshabilitado temporalmente o preparado (El controlador actual no lo soporta) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDos">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDos">
+                        2. Categoría activa con créditos &le; límite (Sin soporte en Controller)
+                    </button>
+                </h2>
+                <div id="collapseDos" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <form action="#" method="get" class="row g-3 align-items-end">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Categoría:</label>
+                                <input type="text" name="categoria" class="form-control" placeholder="Ej: Code" disabled/>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Máximo créditos:</label>
+                                <input type="number" name="maxCreditos" class="form-control" placeholder="Ej: 30" disabled/>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-secondary w-100" disabled>Filtrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APARTADO 3: Sin soporte en Controller -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTres">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTres">
+                        3. Categoría y texto contenido en el título (Sin soporte en Controller)
+                    </button>
+                </h2>
+                <div id="collapseTres" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <form action="#" method="get" class="row g-3 align-items-end">
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Categoría:</label>
+                                <input type="text" name="categoria" class="form-control" placeholder="Ej: Cyberpunk" disabled/>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Texto a contener:</label>
+                                <input type="text" name="texto" class="form-control" placeholder="Ej: Code" disabled/>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-secondary w-100" disabled>Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APARTADO 4: Sin soporte en Controller -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCuatro">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCuatro">
+                        4. Rango de créditos (BETWEEN DESC - JPQL) (Sin soporte en Controller)
+                    </button>
+                </h2>
+                <div id="collapseCuatro" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <form action="#" method="get" class="row g-3 align-items-end">
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Mínimo créditos:</label>
+                                <input type="number" name="min" class="form-control" placeholder="Ej: 15" disabled/>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Máximo créditos:</label>
+                                <input type="number" name="max" class="form-control" placeholder="Ej: 45" disabled/>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-secondary w-100" disabled>Filtrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mb-3">
+            <a th:href="@{/}" class="btn btn-outline-secondary">Volver al inicio</a>
+        </div>
+
+        <!-- NOTA: Eliminada la tabla e insignias que dependían de ${items} para evitar errores de compilación inicial -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <span class="fw-bold">Buscador del Laboratorio</span>
+            </div>
+            <div class="card-body py-4 text-center text-muted">
+                Utiliza el primer apartado del acordeón para ejecutar búsquedas. Los resultados se mostrarán en la pantalla de destino.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>

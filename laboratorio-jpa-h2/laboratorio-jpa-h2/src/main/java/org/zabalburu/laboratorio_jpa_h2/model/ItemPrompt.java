@@ -3,6 +3,7 @@ package org.zabalburu.laboratorio_jpa_h2.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 

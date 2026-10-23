@@ -1,6 +1,7 @@
 package org.zabalburu.laboratorio_jpa_h2.config;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,24 @@ public class DataRunner implements CommandLineRunner {
             new ItemPrompt("Refactor Clean Code", "CODIGO", 45, true)
         ));
 
-        // Meter aquí las pruebas
+        System.out.println("\n== Prueba findByCategoriaIgnoreCase ==");
+        System.out.println("1. Buscando arte:");
+        mostrarLista(repository.findByCategoriaIgnoreCase("ARTE"));
 
+        System.out.println("\n2. Buscando publicidad:");
+        mostrarLista(repository.findByCategoriaIgnoreCase("PUBLICIDAD"));
+    }
+    
+    private void mostrarLista(List<ItemPrompt> lista) {
+        if (lista.isEmpty()) {
+            System.out.println("(Lista vacía)");
+            return;
+        }
+        System.out.println(lista.stream()
+                .map(ip -> "[%s,%s,%b,%d]".formatted(ip.getTitulo(),
+                        ip.getCategoria(),
+                        ip.getActivo(),
+                        ip.getCreditos()))
+                .collect(Collectors.joining(",\n")));
     }
 }
